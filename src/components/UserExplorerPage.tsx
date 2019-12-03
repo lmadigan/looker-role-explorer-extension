@@ -1,7 +1,8 @@
 import React from "react"
 import { IRole, IUser } from "@looker/sdk"
-import { Flex, Box, Spinner } from '@looker/components'
+import { Flex, Box, Spinner, theme } from '@looker/components'
 import { Switch, Route, RouteComponentProps, withRouter } from "react-router-dom"
+import styled, { ThemeProvider } from 'styled-components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 import { UserSection } from "./UserSection"
 
@@ -71,13 +72,16 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
 
   render() {
     const { user, roles } = this.state
+    console.log(this.state)
     return (
-      <Box>
+      <ThemeProvider theme={theme}>
         <Flex>
-          { (user && roles) && <UserSection user={user} roles={roles}/> }
-          { !(user && roles ) && <Spinner />}
+          { user ? 
+            <UserSection user={user} roles={roles}/> : 
+            <Spinner />
+          }
         </Flex>
-      </Box>
+      </ThemeProvider>
     )
    
   }

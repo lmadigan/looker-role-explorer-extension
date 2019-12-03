@@ -4,7 +4,7 @@ import { Flex, Box, Heading, Text } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 
 interface RoleSectionProps {
-  roles: IRole[]
+  roles?: IRole[]
 }
 
 export const RoleSection: React.FunctionComponent<RoleSectionProps> = ({
@@ -12,13 +12,19 @@ export const RoleSection: React.FunctionComponent<RoleSectionProps> = ({
 }) => { 
   return (
     <Flex flexDirection='column'>
-      <Heading as="h3">{roles.length} Roles</Heading>
-      <Flex flexDirection='column'>
-        {
-          roles.map(role => <Text>{role.name}</Text>)
-        }
-        
-      </Flex>
-    </Flex>
+      {
+        roles ? 
+        <>
+          <Heading as="h3">{roles.length} Roles</Heading>
+            <Flex flexDirection='column'>
+              {
+                roles.map(role => <Text>{role.name}</Text>)
+              }
+              
+            </Flex>
+
+        </> : ''
+      }
+    </Flex>  
   )
 }

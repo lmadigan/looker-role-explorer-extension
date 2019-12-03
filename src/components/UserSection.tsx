@@ -6,7 +6,7 @@ import { RoleSection } from './RoleSection'
 
 interface UserSectionProps {
   user: IUser, 
-  roles: IRole[]
+  roles?: IRole[]
 }
 
 export const UserSection: React.FunctionComponent<UserSectionProps> = ({
