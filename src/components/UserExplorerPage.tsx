@@ -1,8 +1,9 @@
 import React from "react"
 import { IRole, IUser } from "@looker/sdk"
-import { Flex, Box } from '@looker/components'
+import { Flex, Box, Spinner } from '@looker/components'
 import { Switch, Route, RouteComponentProps, withRouter } from "react-router-dom"
 import { ExtensionContext } from "../framework/ExtensionWrapper"
+import { UserSection } from "./UserSection"
 
 interface UserExplorerPageState {
   userId?: number, 
@@ -66,13 +67,15 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
     }
   }
 
+
+
   render() {
-    console.log(this.state)
+    const { user, roles } = this.state
     return (
       <Box>
         <Flex>
-          <Box>User Section</Box>
-          <Box>Permission Section</Box>
+          { (user && roles) && <UserSection user={user} roles={roles}/> }
+          { !(user && roles ) && <Spinner />}
         </Flex>
       </Box>
     )
