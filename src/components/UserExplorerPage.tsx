@@ -9,7 +9,7 @@ interface UserExplorerPageState {
   loadingUser: boolean, 
   errorMessage?: string, 
   user?: IUser, 
-  roles?: IRole,
+  roles?: IRole[],
 }
 
 class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorerPageState> {
@@ -20,6 +20,7 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
     this.state = {
       userId: 4,
       loadingUser: false,
+      roles: []
     }
   }
 
@@ -53,13 +54,13 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
 
   async loadUserRoles(userId: number) {
     try {
-      var roles = await this.context.coreSDK.ok(this.context.coreSDK.user(userId))
+      var roles = await this.context.coreSDK.ok(this.context.coreSDK.user_roles(userId))
       this.setState({
         roles: roles,
       })
     } catch (err) {
       this.setState({
-        roles: {}, 
+        roles: [], 
         errorMessage: "Error loading user roles"
       })
     }
