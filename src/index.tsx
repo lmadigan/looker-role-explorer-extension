@@ -22,7 +22,7 @@ import * as React from "react"
 // THE SOFTWARE.
 
 import * as ReactDOM from "react-dom"
-import { Extension } from "./demo/Extension"
+import { UserExplorePage } from "./components/UserExplorerPage"
 import { ExtensionWrapper } from "./framework/ExtensionWrapper"
 
 window.addEventListener("DOMContentLoaded", async event => {
@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", async event => {
   ReactDOM.render(
     // ExtensionWrapper provides subcomponents access to the Looker Extension SDK
     <ExtensionWrapper>
-      <Extension/>
+      <UserExplorePage/>
     </ExtensionWrapper>,
     root
   )

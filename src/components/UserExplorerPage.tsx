@@ -79,3 +79,4 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
   }
 }
 
+export const UserExplorePage = withRouter(UserExplorerPage)
