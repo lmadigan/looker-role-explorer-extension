@@ -22,7 +22,7 @@ You will have to do this everytime you start up again with `yarn start`
 5. Now login to looker and create a new __Blank Project__.
 6. Navigate to the IDE in Looker.
 7. In your fork of `extension_template` you have `manifest.lkml` file. You can either drag & upload this file into your Looker project, or create a `manifest.lkml` with the same content. Change the `id`, `label`, or `url` as needed.
- 
+
 ```
 application: extension-template {
   label: "Extension Template"
@@ -33,7 +33,7 @@ application: extension-template {
 8. Create a `model` lookml file in your project. Give it any name. It is only used for permissioning.
     - Add a connection in this model. The specific connection doesn't matter.
     - Configure the model you created. https://docs.looker.com/data-modeling/getting-started/create-projects#configuring_a_model
-  
+
 9. We suggest creating an empty git repository and linking it to this project. This will be useful for deploying later.
     - Configure git from your Looker project to the new repository.
     - https://docs.looker.com/data-modeling/getting-started/setting-up-git-connection
