@@ -1,6 +1,6 @@
 import React from "react"
 import { IRole, IUser } from "@looker/sdk"
-import Select from 'react-select'
+import Select, { components } from 'react-select'
 import { Flex, Box, Heading, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 import RoleSection from './RoleSection'
@@ -72,10 +72,12 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
   createUserOptions(users: IUser[]) {
     let userOptions = new Array(users.length)
     for (let i in users ) {
-      userOptions[i] = { value: users[i].display_name, label: users[i].display_name }
+      userOptions[i] = { value: users[i].display_name, label: users[i].display_name, email: users[i].email }
     }
     return userOptions
   }
+
+  
 
   onSelectUser(userOption: Record<string, string>) {
     const { userList } = this.state 
@@ -93,6 +95,17 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
     }
   }
 
+  formatOptionLabel(option: any) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div>{option.label}</div>
+      <div style={{ color: "#ccc", fontSize: '10px'}}>
+        {option.email}
+      </div>
+    </div>
+    )
+  }
+
   userDropDown() {
     const { selectedUser, userOptions } = this.state
     return (
@@ -103,6 +116,7 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
           onChange={(selectedUser: any) => this.onSelectUser(selectedUser)}
           placeholder={{value:"Search for a user"}}
           onInputChange={(value: any) => this.onInputChange(value)}
+          formatOptionLabel={this.formatOptionLabel}
         />
       </Box>
     )

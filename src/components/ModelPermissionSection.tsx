@@ -142,11 +142,24 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     return options
   }
 
+  modelDropDownStyles() {
+    return {
+      option: (provided: any, state: any) => ({
+        ...provided,
+        borderBottom: '1px dotted pink',
+        fontSize: '12px',
+        display: 'flex',
+        flex: '0 1 auto' 
+      })
+    }
+  }
+
   modelDropDown() {
     const { selectedModel } = this.state
     const modelOptions = this.createModelOptions()
     return (
       <Select
+        styles={this.modelDropDownStyles()}
         value={selectedModel}
         onChange={(selectedModel: any) => this.handleDropDownChange(selectedModel)}
         options={modelOptions} 
