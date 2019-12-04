@@ -3,7 +3,6 @@ import { IRole, IUser } from "@looker/sdk"
 import Select, { components } from 'react-select'
 import { Flex, Box, Heading, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
-import RoleSection from './RoleSection'
 
 interface UserSectionProps {
   user: IUser | null
@@ -72,7 +71,12 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
   createUserOptions(users: IUser[]) {
     let userOptions = new Array(users.length)
     for (let i in users ) {
-      userOptions[i] = { value: users[i].display_name, label: users[i].display_name, email: users[i].email }
+      userOptions[i] = { 
+        value: users[i].display_name, 
+        label: users[i].display_name, 
+        email: users[i].email, 
+        avatar: users[i].avatar_url
+     }
     }
     return userOptions
   }

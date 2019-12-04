@@ -1,6 +1,6 @@
 import React from "react"
-import { IPermission, IModelSet, IRole, } from "@looker/sdk"
-import { Flex, Box, Heading, Text, Paragraph, List, ListItem } from '@looker/components'
+import { IRole, } from "@looker/sdk"
+import { Flex, Box, Tooltip, Icon, Paragraph, List, ListItem } from '@looker/components'
 import Select from 'react-select';
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 import { getModelPermissions, getAllAccessibleModelPermissions, getUniquePermissions, distinct } from '../util/permissions'
@@ -29,7 +29,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
 
   componentDidMount() {
     const accessibleModelPerms = this.getAllAccessibleModelPermissions()
-    const modelPermissions = this.getModelSpecificPermissions()
+    const modelPermissions = this.getModelSpecificPermissions(accessibleModelPerms)
     const modelArray = this.getModelArray(modelPermissions)
     this.setState({
       accessibleModelPerms: accessibleModelPerms,
@@ -41,7 +41,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
   componentDidUpdate( prevProps: ModelPermissionProps, prevState: ModelPermissionState) {
     if ( prevProps.roles !== this.props.roles ) {
       const accessibleModelPerms = this.getAllAccessibleModelPermissions()
-      const modelPermissions = this.getModelSpecificPermissions()
+      const modelPermissions = this.getModelSpecificPermissions(accessibleModelPerms)
       const modelArray = this.getModelArray(modelPermissions)
       this.setState({
         accessibleModelPerms: accessibleModelPerms,
@@ -58,8 +58,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     if ( roles ) {
       for ( let role of roles ) {
         let perms = this.getAccessibleModelPermissionsForRole(role)
-        const diffPerms = getUniquePermissions(perms, newPermissions)
-        newPermissions = newPermissions.concat(diffPerms)
+        newPermissions = perms.concat(newPermissions).filter(distinct)
       }
     }
     return newPermissions
@@ -73,7 +72,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     return permissions
   }
 
-  getModelSpecificPermissions() {
+  getModelSpecificPermissions(accessibleModelPerms: string[]) {
     const { roles } = this.props
     let map = new Map()
     for ( let role of roles! ) {
@@ -82,6 +81,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
       let models = modelSet && modelSet.models
       let permissions = permissionSet && permissionSet.permissions
       let modelPermissions = permissions && getModelPermissions(permissions)
+      modelPermissions = modelPermissions && modelPermissions.concat(accessibleModelPerms)
       if ( models ) {
         for ( let model of models ) {
           if (map.has(model)) {
@@ -146,7 +146,6 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     return {
       option: (provided: any, state: any) => ({
         ...provided,
-        borderBottom: '1px dotted pink',
         fontSize: '12px',
         display: 'flex',
         flex: '0 1 auto' 
@@ -168,13 +167,55 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     )
   }
 
+  validatePermission(permission: string, permissionSet: string[]) {
+    switch ( permission ) {
+      case 'update_datagroups': 
+        if ( permissionSet.indexOf('see_datagroups') === -1) {
+          return 'Requires see_datagroups permissions'
+        }
+      case 'create_alerts' || 'follow_alerts' || 'send_to_s3' || 'send_to_sftp' || 'send_to_integration' || 'save_content': 
+        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 ) {
+          return 'Requires access_data and see_looks permissions'
+        }
+      case 'schedule_external_look_emails' || 'create_table_calculations': 
+        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 ||  permissionSet.indexOf('explore') === -1) {
+          return 'Requires access_data, see_looks and explore permissions'
+        }
+      case 'deploy': 
+        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 || 
+         permissionSet.indexOf('develop') === -1 || permissionSet.indexOf('see_lookml') === -1) {
+          return 'Requires access_data, see_looks, develop, and see_lookml permissions'
+        }
+      default: 
+        return false;
+    }
+  }
+
+  modelPermission(perm: string, ind: string | number | undefined, permissionSet: string[]) {
+    const errorMessage = this.validatePermission(perm, permissionSet)
+    return ( 
+      <Flex>
+        {
+          errorMessage && 
+          <Tooltip content={errorMessage}>
+          {(eventHandlers, ref) => (
+            <Icon ref={ref} {...eventHandlers} name="Warning" size={24} />
+          )}
+        </Tooltip>
+        }
+        
+        <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>
+      </Flex>
+    )
+  }
+
   renderModelPermissions() {
     const { selectedModel } = this.state 
     const modelPermissions = selectedModel && this.state.modelData.get(selectedModel.value)
     return (
       modelPermissions ? 
       modelPermissions.map((perm: string, ind: string | number | undefined) => {
-        return <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>
+        return this.modelPermission(perm, ind, modelPermissions)
         }) : ''
     )
   }

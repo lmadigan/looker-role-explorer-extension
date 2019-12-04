@@ -2,7 +2,7 @@ import React from "react"
 import { IPermission, IModelSet, IRole, } from "@looker/sdk"
 import { Flex, Box, Heading, Text, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
-import { getModelPermissions, getInstancePermissions, getUniquePermissions, distinct } from '../util/permissions'
+import { getInstancePermissions, distinct } from '../util/permissions'
 
 interface InstancePermissionProps {
   roles?: IRole[]
