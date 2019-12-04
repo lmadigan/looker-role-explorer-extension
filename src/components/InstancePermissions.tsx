@@ -62,7 +62,7 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
     const { instancePermissions } = this.state
     return (
       <Flex flexDirection='column' mr='xxxlarge'>
-        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Instance-Wide Permissions</Paragraph>
+        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Instance Permissions</Paragraph>
         {
           instancePermissions.map((perm: string, ind: string | number | undefined) => {
           return <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>

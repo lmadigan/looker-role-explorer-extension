@@ -151,7 +151,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
       }),
       value: (provided: any, state: any) => ({
         ...provided,
-        fontSize: '14px',
+        fontSize: '12px',
         display: 'flex',
         flex: '0 1 auto' 
       }),
@@ -228,8 +228,8 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
   render() {
     return (
       <Flex flexDirection='column'>
-        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Model-Specific Permissions</Paragraph>
-        <Box mb='large'>
+        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Model Permissions</Paragraph>
+        <Box mb='large' width='300px'>
           {this.modelDropDown()}
         </Box>
         <Box>
