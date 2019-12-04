@@ -3,6 +3,7 @@ import { IPermission, IModelSet, IRole, } from "@looker/sdk"
 import { Flex, Box, Heading, Text, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 import { getInstancePermissions, distinct } from '../util/permissions'
+import { limitByRadius } from "@looker/components/dist/types/Form/Fields/FieldColor/ColorWheel/math_utils"
 
 interface InstancePermissionProps {
   roles?: IRole[]
@@ -30,6 +31,7 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
   componentDidUpdate(prevProps: InstancePermissionProps, prevState: InstancePermissionState) {
     if ( prevProps.roles !== this.props.roles ) {
       const instancePermissiosn = this.getInstancePermissions()
+      console.log(instancePermissiosn)
       this.setState({
         instancePermissions: instancePermissiosn
       })
@@ -38,8 +40,7 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
  
   getInstancePermissions() {
     const { roles } = this.props 
-    const { instancePermissions } = this.state
-    let newPermissions = instancePermissions
+    let newPermissions: string[] = []
     if ( roles ) {
       for ( let role of roles ) {
         const instancePerms = this.getInstancePermissionsForRole(role)
@@ -48,8 +49,6 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
     }
     return newPermissions
   }
-
-  
 
   getInstancePermissionsForRole(role: IRole) {
     let permissions: string[] = []

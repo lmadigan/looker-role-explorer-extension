@@ -53,8 +53,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
 
   getAllAccessibleModelPermissions() {
     const { roles } = this.props 
-    const { accessibleModelPerms } = this.state
-    let newPermissions = accessibleModelPerms
+    let newPermissions: string[] = []
     if ( roles ) {
       for ( let role of roles ) {
         let perms = this.getAccessibleModelPermissionsForRole(role)
@@ -149,7 +148,13 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
         fontSize: '12px',
         display: 'flex',
         flex: '0 1 auto' 
-      })
+      }),
+      value: (provided: any, state: any) => ({
+        ...provided,
+        fontSize: '14px',
+        display: 'flex',
+        flex: '0 1 auto' 
+      }),
     }
   }
 
@@ -197,9 +202,9 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
       <Flex>
         {
           errorMessage && 
-          <Tooltip content={errorMessage}>
+          <Tooltip content={errorMessage} placement="left">
           {(eventHandlers, ref) => (
-            <Icon ref={ref} {...eventHandlers} name="Warning" size={24} />
+            <Icon ref={ref} {...eventHandlers} name="Warning" color='palette.yellow200' size={20} />
           )}
         </Tooltip>
         }

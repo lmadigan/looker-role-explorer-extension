@@ -29,10 +29,6 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
     }
   }
 
-  // componentDidMount() {
-  //   this.initialize()
-  // }
-
   componentDidUpdate(prevProps: RouteComponentProps, prevState: UserExplorerPageState) {
     if (this.state.userId !== prevState.userId ) {
       this.state.userId && this.loadRoles(this.state.userId)
@@ -74,6 +70,8 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
   }
 
   render() {
+    console.log(this.state)
+    console.log(this.props)
     const { userId, user, roles } = this.state
     return (
       <Flex m='xxxlarge' flexDirection='column' mr='xxxlarge'>

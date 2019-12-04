@@ -81,8 +81,6 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
     return userOptions
   }
 
-  
-
   onSelectUser(userOption: Record<string, string>) {
     const { userList } = this.state 
     this.setState({
