@@ -53,6 +53,22 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
     }
   }
 
+  async searchUsersByName(name: string) {
+    try {
+      var users = await this.context.coreSDK.ok(this.context.coreSDK.search_users_names({pattern: name }))
+      let userOptions = this.createUserOptions(users)
+      this.setState({
+        userList: users, 
+        userOptions: userOptions
+      })
+    } catch (err) {
+      this.setState({
+        userList: [], 
+        selectedUser: { value: null },
+      })
+    }
+  }
+
   createUserOptions(users: IUser[]) {
     let userOptions = new Array(users.length)
     for (let i in users ) {
@@ -70,6 +86,13 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
     this.props.setSelectedUser(user[0])
   }
 
+  onInputChange(value: any) {
+    if (value.length) {
+      let val = `${value}%`
+      this.searchUsersByName(val)
+    }
+  }
+
   userDropDown() {
     const { selectedUser, userOptions } = this.state
     return (
@@ -78,7 +101,8 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
           options={userOptions}
           value={selectedUser}
           onChange={(selectedUser: any) => this.onSelectUser(selectedUser)}
-          placeholder="Search for a user"
+          placeholder={{value:"Search for a user"}}
+          onInputChange={(value: any) => this.onInputChange(value)}
         />
       </Box>
     )

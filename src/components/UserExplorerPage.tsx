@@ -62,7 +62,6 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
 
   renderUserLoaded() {
     const { user, roles } = this.state
-    console.log(roles)
     return (
       <Flex flexDirection='column'>
           <Flex>
@@ -76,7 +75,6 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
 
   render() {
     const { userId, user, roles } = this.state
-    // console.log(this.state)
     return (
       <Flex m='xxxlarge' flexDirection='column' mr='xxxlarge'>
         <Text fontSize='xxxlarge' color='palette.charcoal900' mb='xsmall'>Role Explorer</Text>
