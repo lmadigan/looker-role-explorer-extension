@@ -53,7 +53,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
 
   getAllAccessibleModelPermissions() {
     const { roles } = this.props 
-    let newPermissions: any[] = []
+    let newPermissions: string[] = []
     if ( roles ) {
       for ( let role of roles ) {
         let perms = this.getAccessibleModelPermissionsForRole(role)
@@ -64,14 +64,14 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
   }
 
   getAccessibleModelPermissionsForRole(role: IRole) {
-    let permissions: Record<string,string>[] = []
+    let permissions: string[] = []
     if (role.permission_set && role.permission_set.permissions) {
       permissions = getAllAccessibleModelPermissions(role.permission_set.permissions)
     } 
     return permissions
   }
 
-  getModelSpecificPermissions(accessibleModelPerms: any[]) {
+  getModelSpecificPermissions(accessibleModelPerms: string[]) {
     const { roles } = this.props
     let map = new Map()
     for ( let role of roles! ) {
@@ -214,42 +214,15 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     )
   }
 
-  eachCategories = (list: any) =>
-    list.map((permission: any, index: any) => (
-      <Paragraph key={index} fontSize="small">
-        {permission}
-      </Paragraph>
-    ));
-  instancePermissionsList = (instancePermissions: any) => {
-    const finalList: any = {};
-    instancePermissions.map((permission: Record<string, string>) => {
-      if (finalList[permission.category]) {
-        finalList[permission.category].push(permission.value);
-      } else {
-        finalList[permission.category] = [permission.value];
-      }
-    });
-    let arr = [];
-    for (const category in finalList) {
-      arr.push(
-        <div key={category}>
-          <Paragraph fontWeight="bold" fontSize="medium">
-            {category}
-          </Paragraph>
-          {this.eachCategories(finalList[category])}
-        </div>
-      );
-    }
-    return arr;
-  };
-
   renderModelPermissions() {
-    const { selectedModel } = this.state;
-    const modelPermissions =
-      selectedModel && this.state.modelData.get(selectedModel.value);
-    return modelPermissions
-      ? this.instancePermissionsList(modelPermissions)
-      : "";
+    const { selectedModel } = this.state 
+    const modelPermissions = selectedModel && this.state.modelData.get(selectedModel.value)
+    return (
+      modelPermissions ? 
+      modelPermissions.map((perm: string, ind: string | number | undefined) => {
+        return this.modelPermission(perm, ind, modelPermissions)
+        }) : ''
+    )
   }
 
   render() {
