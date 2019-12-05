@@ -47,6 +47,13 @@ const modelPermissions = [
   'develop'
 ]
 
+const categories = {
+  'Admin': ['see_logs', 'see_queries', 'see_schedules', 'see_system_activity', 'see_pdts', 'see_datagroups', 'update_datagroups', 'see_users', 'sudo', 'support_access_toggle'], 
+  'BI Interaction': ['embed_browse_spaces', 'manage_homepage', 'manage_spaces', 'see_drill_overlay', 'see_lookml_dashboards', 'see_looks', 'create_alerts', 'follow_alerts', 'see_user_dashboards', 'see_sql', 'explore', 'save_content'], 
+  'Data Access': ['create_prefetches', 'login_special_email', 'access_data', 'send_outgoing_webhook', 'send_to_s3', 'send_to_sftp', 'send_to_integration', 'download_with_limit', 'download_without_limit', 'create_table_calculations', 'create_public_looks', 'schedule_look_emails', 'schedule_external_look_emails'], 
+  'Development Tools': ['manage_models', 'see_lookml', 'use_sql_runner', 'develop', 'deploy']
+}
+
 export const distinct = (value: any, index: any, self: any) => {
   return self.indexOf(value) === index;
 }
