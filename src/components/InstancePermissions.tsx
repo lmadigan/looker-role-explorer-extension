@@ -2,8 +2,7 @@ import React from "react"
 import { IPermission, IModelSet, IRole, } from "@looker/sdk"
 import { Flex, Box, Heading, Text, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
-import { getInstancePermissions, distinct } from '../util/permissions'
-import { limitByRadius } from "@looker/components/dist/types/Form/Fields/FieldColor/ColorWheel/math_utils"
+import { getInstancePermissions, distinct, filterPermissionsForCategory } from '../util/permissions'
 
 interface InstancePermissionProps {
   roles?: IRole[]
@@ -58,16 +57,30 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
     return permissions
   }
 
+  categorize(perms: string[], category: string) {
+    const list = filterPermissionsForCategory(perms, category)
+    if (list.length === 0 ) { return '' }
+    return (
+      <Flex flexDirection='column' mb='xlarge'>
+        <Text color='palette.charcoal500' textTransform="uppercase" fontSize="small" mb='small'>{category}</Text>
+        {
+          list.map((perm: string, ind: number) => {
+          return <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>
+          })
+        }
+      </Flex>
+    )
+  }
+
   render() {
     const { instancePermissions } = this.state
     return (
       <Flex flexDirection='column' mr='xxxlarge'>
-        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Instance Permissions</Paragraph>
-        {
-          instancePermissions.map((perm: string, ind: string | number | undefined) => {
-          return <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>
-          })
-        }
+        <Paragraph fontSize='medium' mb='large' color='palette.charcoal900' fontWeight='semiBold'>Instance Permissions</Paragraph>
+        {this.categorize(instancePermissions, "Admin")}
+        {this.categorize(instancePermissions, "Data Access")}
+        {this.categorize(instancePermissions, "BI Interaction")}
+        {this.categorize(instancePermissions, "Development Tools")}
       </Flex> 
     )
   }

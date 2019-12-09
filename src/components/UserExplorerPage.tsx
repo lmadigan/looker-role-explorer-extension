@@ -1,6 +1,6 @@
 import React from "react"
 import { IRole, IUser } from "@looker/sdk"
-import { Flex, Box, Spinner, Text, theme, Paragraph} from '@looker/components'
+import { Flex, Text, Paragraph} from '@looker/components'
 import { RouteComponentProps, withRouter } from "react-router-dom"
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 import UserSection from "./UserSection"
@@ -70,9 +70,7 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
   }
 
   render() {
-    console.log(this.state)
-    console.log(this.props)
-    const { userId, user, roles } = this.state
+    const { userId, user } = this.state
     return (
       <Flex m='xxxlarge' flexDirection='column' mr='xxxlarge'>
         <Text fontSize='xxxlarge' color='palette.charcoal900' mb='xsmall'>Role Explorer</Text>

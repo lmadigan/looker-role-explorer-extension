@@ -63,6 +63,26 @@ export function getUniquePermissions(permissionList1: string[], permissionList2:
   return intersection
 }
 
+function getPermissionsForCategory(category: string) {
+  switch (category) {
+    case "Admin": 
+      return categories["Admin"]
+    case 'BI Interaction':
+      return categories['BI Interaction']
+    case 'Data Access':
+      return categories['Data Access']
+    case 'Development Tools':
+        return categories['Development Tools']
+    default:
+      return []
+  }
+}
+
+export function filterPermissionsForCategory(permissionList: string[], category: string) {
+  const categoryPermissions = getPermissionsForCategory(category)
+  return getUniquePermissions(permissionList, categoryPermissions)
+}
+
 export function getModelPermissions(permissionList: string[]) {
   return getUniquePermissions(permissionList, modelPermissions)
 }

@@ -1,9 +1,8 @@
 import React from "react"
 import { IRole, } from "@looker/sdk"
-import { Flex, Box, Tooltip, Icon, Paragraph, List, ListItem } from '@looker/components'
+import { Flex, Box, Tooltip, Icon, Paragraph, List, ListItem, Text } from '@looker/components'
 import Select from 'react-select';
-import { ExtensionContext } from "../framework/ExtensionWrapper"
-import { getModelPermissions, getAllAccessibleModelPermissions, getUniquePermissions, distinct } from '../util/permissions'
+import { getModelPermissions, getAllAccessibleModelPermissions, filterPermissionsForCategory, distinct } from '../util/permissions'
 
 interface ModelPermissionProps {
   roles?: IRole[]
@@ -217,18 +216,36 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
   renderModelPermissions() {
     const { selectedModel } = this.state 
     const modelPermissions = selectedModel && this.state.modelData.get(selectedModel.value)
+    if ( !modelPermissions ) { return ''}
     return (
-      modelPermissions ? 
-      modelPermissions.map((perm: string, ind: string | number | undefined) => {
-        return this.modelPermission(perm, ind, modelPermissions)
-        }) : ''
+      <Flex flexDirection='column'>
+        {this.categorize(modelPermissions, "Admin")}
+        {this.categorize(modelPermissions, "Data Access")}
+        {this.categorize(modelPermissions, "BI Interaction")}
+        {this.categorize(modelPermissions, "Development Tools")}
+      </Flex>
+    )
+  }
+
+  categorize(perms: string[], category: string) {
+    const list = filterPermissionsForCategory(perms, category)
+    if (list.length === 0 ) { return '' }
+    return (
+      <Flex flexDirection='column' mb='xlarge'>
+        <Text color='palette.charcoal500' textTransform="uppercase" fontSize="small" mb='small'>{category}</Text>
+        {
+          list.map((perm: string, ind: number) => {
+          return this.modelPermission(perm, ind, perms)
+          })
+        }
+      </Flex>
     )
   }
 
   render() {
     return (
       <Flex flexDirection='column'>
-        <Paragraph fontSize='medium' mb='large' color='palette.charcoal600'>Model Permissions</Paragraph>
+        <Paragraph fontSize='medium' mb='large'  color='palette.charcoal900' fontWeight='semiBold' >Model Permissions</Paragraph>
         <Box mb='large' width='300px'>
           {this.modelDropDown()}
         </Box>

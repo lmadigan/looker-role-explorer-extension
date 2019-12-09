@@ -1,7 +1,7 @@
 import React from "react"
 import { IRole, IUser } from "@looker/sdk"
-import Select, { components } from 'react-select'
-import { Flex, Box, Heading, Paragraph } from '@looker/components'
+import Select from 'react-select'
+import { Flex, Box, Paragraph } from '@looker/components'
 import { ExtensionContext } from "../framework/ExtensionWrapper"
 
 interface UserSectionProps {
