@@ -75,7 +75,10 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
         value: users[i].display_name, 
         label: users[i].display_name, 
         email: users[i].email, 
-        avatar: users[i].avatar_url
+        first_name: users[i].first_name,
+        last_name: users[i].last_name,
+        id: users[i].id,
+        avatar_url: users[i].avatar_url
      }
     }
     return userOptions
@@ -98,15 +101,38 @@ class UserSection extends React.Component<UserSectionProps, UserSectionState>{
   }
 
   formatOptionLabel(option: any) {
+    const avatarOption = {
+      avatar_url: option.avatar_url,
+      first_name: option.first_name,
+      id: option.id,
+      last_name: option.last_name
+    }
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
-      <div>{option.label}</div>
-      <div style={{ color: "#ccc", fontSize: '10px'}}>
-        {option.email}
-      </div>
-    </div>
+      <Flex>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div>{option.label}</div>
+            <div style={{ color: "#ccc", fontSize: '10px'}}>
+              {option.email}
+            </div>
+          </div>
+      </Flex>
+      
     )
   }
+
+  customSingleValue = (option: any) => {
+    const { data } = option
+    return (
+      <Flex>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div>{data.label}</div>
+          <div style={{ color: "#ccc", fontSize: '10px'}}>
+            {data.email}
+          </div>
+        </div>
+      </Flex>
+    )
+  } 
 
   userDropDown() {
     const { selectedUser, userOptions } = this.state

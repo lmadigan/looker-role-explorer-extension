@@ -201,7 +201,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
       <Flex>
         {
           errorMessage && 
-          <Tooltip content={errorMessage} placement="left">
+          <Tooltip surfaceStyles={{backgroundColor: "white", color: "black"}} content={errorMessage} placement="left">
           {(eventHandlers, ref) => (
             <Icon ref={ref} {...eventHandlers} name="Warning" color='palette.yellow200' size={20} />
           )}
