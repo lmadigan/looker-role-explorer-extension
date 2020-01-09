@@ -1,5 +1,5 @@
 import React from "react"
-import { IModelSet, IRole, } from "@looker/sdk"
+import { IRole, } from "@looker/sdk"
 import { Flex, Paragraph } from '@looker/components'
 
 interface RoleSectionProps {
@@ -10,7 +10,7 @@ class  RoleSection extends React.Component<RoleSectionProps> {
   render() {
     const { roles } = this.props
     return (
-      <Flex flexDirection='column' mr='xxxlarge'>
+      <Flex flexDirection='column' mr='xxxxlarge'>
         {
           roles ? 
           <>

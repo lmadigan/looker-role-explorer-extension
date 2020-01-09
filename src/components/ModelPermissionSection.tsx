@@ -3,6 +3,7 @@ import { IRole, } from "@looker/sdk"
 import { Flex, Box, Tooltip, Icon, Paragraph, List, ListItem, Text } from '@looker/components'
 import Select from 'react-select';
 import { getModelPermissions, getAllAccessibleModelPermissions, filterPermissionsForCategory, distinct } from '../util/permissions'
+import { validatePermission } from '../util/validate'
 
 interface ModelPermissionProps {
   roles?: IRole[]
@@ -171,34 +172,11 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
     )
   }
 
-  validatePermission(permission: string, permissionSet: string[]) {
-    switch ( permission ) {
-      case 'update_datagroups': 
-        if ( permissionSet.indexOf('see_datagroups') === -1) {
-          return 'Requires see_datagroups permissions'
-        }
-      case 'create_alerts' || 'follow_alerts' || 'send_to_s3' || 'send_to_sftp' || 'send_to_integration' || 'save_content': 
-        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 ) {
-          return 'Requires access_data and see_looks permissions'
-        }
-      case 'schedule_external_look_emails' || 'create_table_calculations': 
-        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 ||  permissionSet.indexOf('explore') === -1) {
-          return 'Requires access_data, see_looks and explore permissions'
-        }
-      case 'deploy': 
-        if ( permissionSet.indexOf('access_data') === -1 || permissionSet.indexOf('see_looks') === -1 || 
-         permissionSet.indexOf('develop') === -1 || permissionSet.indexOf('see_lookml') === -1) {
-          return 'Requires access_data, see_looks, develop, and see_lookml permissions'
-        }
-      default: 
-        return false;
-    }
-  }
-
   modelPermission(perm: string, ind: string | number | undefined, permissionSet: string[]) {
-    const errorMessage = this.validatePermission(perm, permissionSet)
+    const errorMessage = validatePermission(perm, permissionSet)
     return ( 
-      <Flex>
+      <Flex ml="-20px">
+        <div style={{width: '20px' }}>
         {
           errorMessage && 
           <Tooltip surfaceStyles={{backgroundColor: "white", color: "black"}} content={errorMessage} placement="left">
@@ -207,7 +185,7 @@ class  ModelPermissionSection extends React.Component<ModelPermissionProps, Mode
           )}
         </Tooltip>
         }
-        
+        </div>
         <Paragraph key={ind} fontSize='small'>{perm}</Paragraph>
       </Flex>
     )

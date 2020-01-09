@@ -72,11 +72,13 @@ class UserExplorerPage extends React.Component<RouteComponentProps, UserExplorer
   render() {
     const { userId, user } = this.state
     return (
-      <Flex m='xxxlarge' flexDirection='column' mr='xxxlarge'>
-        <Text fontSize='xxxlarge' color='palette.charcoal900' mb='xsmall'>Role Explorer</Text>
-        <Paragraph fontSize='small' color='palette.charcoal700' mb='xlarge'>Select a user to view all permission</Paragraph>
-        <UserSection user={user} setSelectedUser={(user: IUser) => this.setSelectedUser(user)}/>
-          { userId ? this.renderUserLoaded() : ''}
+      <Flex m='xxxlarge'>
+        <Flex flexDirection='column' >
+          <Text fontSize='xxxlarge' color='palette.charcoal900' mb='xsmall'>Role Explorer</Text>
+          <Paragraph fontSize='small' color='palette.charcoal700' mb='xlarge'>Select a user to view all permission</Paragraph>
+          <UserSection user={user} setSelectedUser={(user: IUser) => this.setSelectedUser(user)}/>
+            { userId ? this.renderUserLoaded() : ''}
+        </Flex>
       </Flex>
         
     )

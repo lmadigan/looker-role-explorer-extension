@@ -30,7 +30,6 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
   componentDidUpdate(prevProps: InstancePermissionProps, prevState: InstancePermissionState) {
     if ( prevProps.roles !== this.props.roles ) {
       const instancePermissiosn = this.getInstancePermissions()
-      console.log(instancePermissiosn)
       this.setState({
         instancePermissions: instancePermissiosn
       })
@@ -75,7 +74,7 @@ class  InstancePermissions extends React.Component<InstancePermissionProps, Inst
   render() {
     const { instancePermissions } = this.state
     return (
-      <Flex flexDirection='column' mr='xxxlarge'>
+      <Flex flexDirection='column' mr='xxxxlarge'>
         <Paragraph fontSize='medium' mb='large' color='palette.charcoal900' fontWeight='semiBold'>Instance Permissions</Paragraph>
         {this.categorize(instancePermissions, "Admin")}
         {this.categorize(instancePermissions, "Data Access")}
